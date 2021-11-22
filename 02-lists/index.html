@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>02-lists</title>
+		<script src="https://unpkg.com/vue@next"></script>
+		<style>
+			h3 {
+				margin: 0;
+			}
+			ul {
+				margin-top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h3>Array of Strings</h3>
+			<ul>
+				<li v-for="item in itemsArrOfStr">{{item}}</li>
+			</ul>
+			<h3>Array of Objects</h3>
+			<ul>
+				<li v-for="(item, index) in itemsArrOfObj" :key="item.id">
+					index: {{index}}, key: {{item.id}}, label: {{item.label}}
+				</li>
+			</ul>
+			<h3>Object</h3>
+			<ul>
+				<li v-for="(item, key, index) in itemsObj" :key="item.id">
+					index: {{index}}, key: {{key}}, label: {{item}}
+				</li>
+			</ul>
+		</div>
+
+		<script>
+			var app = Vue.createApp({
+				data() {
+					return {
+						itemsArrOfStr: ["html", "css", "js"],
+						itemsArrOfObj: [
+							{ id: 1, label: "html" },
+							{ id: 2, label: "css" },
+							{ id: 3, label: "js" },
+						],
+						itemsObj: {
+							1: "html",
+							2: "css",
+							3: "js",
+						},
+					};
+				},
+			}).mount("#app");
+		</script>
+	</body>
+</html>
