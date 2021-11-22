@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>03-tod-list</title>
+		<script src="https://unpkg.com/vue@next"></script>
+		<style>
+			li {
+				cursor: pointer;
+				user-select: none;
+			}
+			li:hover {
+				opacity: 0.6;
+			}
+			li:active {
+				opacity: 1;
+			}
+			.strikeout {
+				text-decoration: line-through;
+			}
+			.priority {
+				color: red;
+			}
+			.priority:not(.strikeout) {
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="todoList">
+			<h1>{{header}}</h1>
+			<button v-if="editing" @click="doEdit(false)">Cancel</button>
+			<button v-else @click="doEdit(true)">Add Item</button>
+			<br /><br />
+			<div class="add_item_form" v-if="editing">
+				<input @keyup.enter="saveItem" type="text" v-model="newItem" placeholder="Add an Item" />
+				<label>
+					<input type="checkbox" v-model="newItemHighPriority" />
+					High Priority
+				</label>
+				<button v-on:click="saveItem" v-bind:disabled="newItem.length === 0">Save Items</button>
+			</div>
+			<p v-if="items.length === 0">Nice job! You have done all your tasks.</p>
+			<ul v-else>
+				<li
+					v-for="item in reversedItems"
+					:key="item.id"
+					:class="{strikeout: item.purchased, priority: item.highPriority}"
+					@click="togglePurchased(item)"
+				>
+					{{item.label}}
+				</li>
+			</ul>
+		</div>
+
+		<script>
+			var todoList = Vue.createApp({
+				data() {
+					return {
+						header: "Todo List App",
+						newItem: "",
+						newItemHighPriority: false,
+						editing: false,
+						items: [
+							{ id: 1, label: "Bring fruites", purchased: true, highPriority: false },
+							{ id: 2, label: "Fix iPhone", purchased: true, highPriority: true },
+							{ id: 3, label: "Sent gift", purchased: false, highPriority: true },
+						],
+					};
+				},
+				computed: {
+					reversedItems() {
+						return [...this.items].reverse();
+					},
+				},
+				methods: {
+					saveItem() {
+						this.items.push({
+							id: this.items.length + 1,
+							label: this.newItem,
+							highPriority: this.newItemHighPriority,
+						});
+						this.newItem = "";
+						this.newItemHighPriority = false;
+					},
+					doEdit(editing) {
+						this.editing = editing;
+						this.newItem = "";
+						this.newItemHighPriority = false;
+					},
+					togglePurchased(item) {
+						item.purchased = !item.purchased;
+					},
+				},
+			}).mount("#todoList");
+		</script>
+	</body>
+</html>
