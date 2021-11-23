@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>05-components</title>
+		<script src="https://unpkg.com/vue@next"></script>
+	</head>
+	<body>
+		<header>
+			<h1>Friend List</h1>
+		</header>
+		<section id="app">
+			<ul :style="{ fontSize: postFontSize + 'em' }">
+				<friend-contact
+					v-for="friend of friends"
+					:friend="friend"
+					v-on:enlarge-text="postFontSize += $event"
+				></friend-contact>
+			</ul>
+		</section>
+
+		<script src="app.js"></script>
+	</body>
+</html>
