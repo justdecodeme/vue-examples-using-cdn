@@ -14,6 +14,7 @@
 			<ul :style="{ fontSize: postFontSize + 'em' }">
 				<friend-contact
 					v-for="friend of friends"
+					:key="friend.id"
 					:friend="friend"
 					v-on:enlarge-text="postFontSize += $event"
 				></friend-contact>
